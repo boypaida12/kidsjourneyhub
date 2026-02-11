@@ -4,6 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ShoppingCart } from "lucide-react";
+import Image from "next/image";
+import { Prisma } from "@prisma/client";
+import StoreLayout from "@/components/store/store-layout";
 
 export default async function ProductsPage({
   searchParams,
@@ -18,7 +21,7 @@ export default async function ProductsPage({
   });
 
   // Build filter query
-  const whereClause: any = {
+  const whereClause: Prisma.ProductWhereInput = {
     isActive: true,
   };
 
@@ -38,30 +41,8 @@ export default async function ProductsPage({
   });
 
   return (
-    <div className="min-h-screen">
+    <StoreLayout>
       {/* Header */}
-      <header className="border-b bg-white sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <Link href="/" className="text-2xl font-bold">
-            Kids Journey Hub
-          </Link>
-          <nav className="flex gap-6 items-center">
-            <Link href="/products" className="hover:text-gray-600 font-medium">
-              Shop
-            </Link>
-            <Link href="/categories" className="hover:text-gray-600">
-              Categories
-            </Link>
-            <Link href="/cart">
-              <Button variant="outline" size="sm">
-                <ShoppingCart className="h-4 w-4 mr-2" />
-                Cart
-              </Button>
-            </Link>
-          </nav>
-        </div>
-      </header>
-
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col md:flex-row gap-8">
           {/* Sidebar - Categories Filter */}
@@ -90,23 +71,25 @@ export default async function ProductsPage({
               </div>
             </div>
           </aside>
-
           {/* Main Content - Products Grid */}
           <main className="flex-1">
             <div className="mb-6">
               <h1 className="text-3xl font-bold">
                 {category
-                  ? categories.find((c) => c.id === category)?.name || "Products"
+                  ? categories.find((c) => c.id === category)?.name ||
+                    "Products"
                   : "All Products"}
               </h1>
               <p className="text-gray-600 mt-2">
-                {products.length} {products.length === 1 ? "product" : "products"} found
+                {products.length}{" "}
+                {products.length === 1 ? "product" : "products"} found
               </p>
             </div>
-
             {products.length === 0 ? (
               <div className="text-center py-12 bg-gray-50 rounded-lg">
-                <p className="text-gray-500 mb-4">No products found in this category</p>
+                <p className="text-gray-500 mb-4">
+                  No products found in this category
+                </p>
                 <Button variant="outline" asChild>
                   <Link href="/products">View All Products</Link>
                 </Button>
@@ -121,7 +104,7 @@ export default async function ProductsPage({
                     <Link href={`/products/${product.slug}`}>
                       <div className="aspect-square bg-gray-100 flex items-center justify-center">
                         {product.images.length > 0 ? (
-                          <img
+                          <Image
                             src={product.images[0]}
                             alt={product.name}
                             className="w-full h-full object-cover"
@@ -163,15 +146,24 @@ export default async function ProductsPage({
                       </div>
                       <div className="mt-2 flex items-center justify-between">
                         {product.stock === 0 ? (
-                          <Badge variant="secondary" className="bg-red-100 text-red-800">
+                          <Badge
+                            variant="secondary"
+                            className="bg-red-100 text-red-800"
+                          >
                             Out of Stock
                           </Badge>
                         ) : product.stock < 5 ? (
-                          <Badge variant="secondary" className="bg-orange-100 text-orange-800">
+                          <Badge
+                            variant="secondary"
+                            className="bg-orange-100 text-orange-800"
+                          >
                             Only {product.stock} left
                           </Badge>
                         ) : (
-                          <Badge variant="secondary" className="bg-green-100 text-green-800">
+                          <Badge
+                            variant="secondary"
+                            className="bg-green-100 text-green-800"
+                          >
                             In Stock
                           </Badge>
                         )}
@@ -184,7 +176,9 @@ export default async function ProductsPage({
                         asChild={product.stock > 0}
                       >
                         {product.stock > 0 ? (
-                          <Link href={`/products/${product.slug}`}>View Details</Link>
+                          <Link href={`/products/${product.slug}`}>
+                            View Details
+                          </Link>
                         ) : (
                           "Out of Stock"
                         )}
@@ -197,46 +191,6 @@ export default async function ProductsPage({
           </main>
         </div>
       </div>
-
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12 mt-20">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div>
-              <h3 className="text-xl font-bold mb-4">Kids Journey Hub</h3>
-              <p className="text-gray-400">
-                Quality kids clothing and accessories for your little ones.
-              </p>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Quick Links</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li>
-                  <Link href="/products" className="hover:text-white">
-                    Shop
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/categories" className="hover:text-white">
-                    Categories
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Contact</h4>
-              <p className="text-gray-400">
-                Accra, Ghana
-                <br />
-                Email: info@kidsjourneys.com
-              </p>
-            </div>
-          </div>
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2026 Kids Journey Hub. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
-    </div>
+    </StoreLayout>
   );
 }

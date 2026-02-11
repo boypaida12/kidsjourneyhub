@@ -5,6 +5,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
+import StoreLayout from "@/components/store/store-layout";
 
 export default async function HomePage() {
   // Fetch featured products
@@ -33,180 +34,115 @@ export default async function HomePage() {
     featuredProducts.length > 0 ? featuredProducts : allProducts;
 
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* Header/Navigation */}
-      <header className="border-b bg-white sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <Link href="/" className="text-2xl font-bold">
-            Kids Journey Hub
-          </Link>
-          <nav className="flex gap-6 items-center">
-            <Link href="/products" className="hover:text-gray-600">
-              Shop
-            </Link>
-            <Link href="/categories" className="hover:text-gray-600">
-              Categories
-            </Link>
-            <Link href="/cart">
-              <Button variant="outline" size="sm">
-                <ShoppingCart className="h-4 w-4 mr-2" />
-                Cart
-              </Button>
-            </Link>
-          </nav>
+    <StoreLayout>
+      {/* Hero Section */}
+      <section className="bg-linear-to-r from-blue-50 to-purple-50 py-20">
+        <div className="container mx-auto px-4 text-center">
+          <h1 className="text-5xl font-bold mb-4">
+            Quality Kids Clothing & Accessories
+          </h1>
+          <p className="text-xl text-gray-600 mb-8">
+            Comfortable, stylish, and affordable clothing for your little ones
+          </p>
+          <Button size="lg" asChild>
+            <Link href="/products">Shop Now</Link>
+          </Button>
         </div>
-      </header>
+      </section>
 
-      {/* Main Content - wrapped with flex-grow */}
-      <main className="grow">
-        {/* Hero Section */}
-        <section className="bg-linear-to-r from-blue-50 to-purple-50 py-20">
-          <div className="container mx-auto px-4 text-center">
-            <h1 className="text-5xl font-bold mb-4">
-              Quality Kids Clothing & Accessories
-            </h1>
-            <p className="text-xl text-gray-600 mb-8">
-              Comfortable, stylish, and affordable clothing for your little ones
-            </p>
-            <Button size="lg" asChild>
-              <Link href="/products">Shop Now</Link>
+      {/* Featured Products */}
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <div className="flex justify-between items-center mb-8">
+            <h2 className="text-3xl font-bold">
+              {featuredProducts.length > 0
+                ? "Featured Products"
+                : "Our Products"}
+            </h2>
+            <Button variant="outline" asChild>
+              <Link href="/products">View All</Link>
             </Button>
           </div>
-        </section>
 
-        {/* Featured Products */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
-            <div className="flex justify-between items-center mb-8">
-              <h2 className="text-3xl font-bold">
-                {featuredProducts.length > 0
-                  ? "Featured Products"
-                  : "Our Products"}
-              </h2>
-              <Button variant="outline" asChild>
-                <Link href="/products">View All</Link>
-              </Button>
+          {productsToShow.length === 0 ? (
+            <div className="text-center py-12 bg-gray-50 rounded-lg">
+              <p className="text-gray-500">No products available yet</p>
             </div>
-
-            {productsToShow.length === 0 ? (
-              <div className="text-center py-12 bg-gray-50 rounded-lg">
-                <p className="text-gray-500">No products available yet</p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {productsToShow.map((product) => (
-                  <Card
-                    key={product.id}
-                    className="overflow-hidden hover:shadow-lg transition-shadow"
-                  >
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {productsToShow.map((product) => (
+                <Card
+                  key={product.id}
+                  className="overflow-hidden hover:shadow-lg transition-shadow"
+                >
+                  <Link href={`/products/${product.slug}`}>
+                    <div className="aspect-square bg-gray-100 flex items-center justify-center">
+                      {product.images.length > 0 ? (
+                        <Image
+                          src={product.images[0]}
+                          alt={product.name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="text-gray-400 text-center p-4">
+                          <ShoppingCart className="h-16 w-16 mx-auto mb-2" />
+                          <p>No image</p>
+                        </div>
+                      )}
+                    </div>
+                  </Link>
+                  <CardContent className="p-4">
+                    {product.category && (
+                      <Badge variant="secondary" className="mb-2">
+                        {product.category.name}
+                      </Badge>
+                    )}
                     <Link href={`/products/${product.slug}`}>
-                      <div className="aspect-square bg-gray-100 flex items-center justify-center">
-                        {product.images.length > 0 ? (
-                          <Image
-                            src={product.images[0]}
-                            alt={product.name}
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <div className="text-gray-400 text-center p-4">
-                            <ShoppingCart className="h-16 w-16 mx-auto mb-2" />
-                            <p>No image</p>
-                          </div>
-                        )}
-                      </div>
+                      <h3 className="font-semibold text-lg hover:text-blue-600 line-clamp-2">
+                        {product.name}
+                      </h3>
                     </Link>
-                    <CardContent className="p-4">
-                      {product.category && (
-                        <Badge variant="secondary" className="mb-2">
-                          {product.category.name}
-                        </Badge>
-                      )}
-                      <Link href={`/products/${product.slug}`}>
-                        <h3 className="font-semibold text-lg hover:text-blue-600 line-clamp-2">
-                          {product.name}
-                        </h3>
-                      </Link>
-                      <div className="mt-2 flex items-center gap-2">
-                        <span className="text-xl font-bold">
-                          GH₵ {product.price.toFixed(2)}
-                        </span>
-                        {product.compareAtPrice &&
-                          product.compareAtPrice > product.price && (
-                            <span className="text-sm text-gray-500 line-through">
-                              GH₵ {product.compareAtPrice.toFixed(2)}
-                            </span>
-                          )}
-                      </div>
-                      {product.stock === 0 && (
-                        <Badge
-                          variant="secondary"
-                          className="mt-2 bg-red-100 text-red-800"
-                        >
-                          Out of Stock
-                        </Badge>
-                      )}
-                    </CardContent>
-                    <CardFooter className="p-4 pt-0">
-                      <Button
-                        className="w-full"
-                        disabled={product.stock === 0}
-                        asChild={product.stock > 0}
-                      >
-                        {product.stock > 0 ? (
-                          <Link href={`/products/${product.slug}`}>
-                            View Details
-                          </Link>
-                        ) : (
-                          "Out of Stock"
+                    <div className="mt-2 flex items-center gap-2">
+                      <span className="text-xl font-bold">
+                        GH₵ {product.price.toFixed(2)}
+                      </span>
+                      {product.compareAtPrice &&
+                        product.compareAtPrice > product.price && (
+                          <span className="text-sm text-gray-500 line-through">
+                            GH₵ {product.compareAtPrice.toFixed(2)}
+                          </span>
                         )}
-                      </Button>
-                    </CardFooter>
-                  </Card>
-                ))}
-              </div>
-            )}
-          </div>
-        </section>
-      </main>
-
-      <footer className="bg-gray-900 text-white py-12">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div>
-              <h3 className="text-xl font-bold mb-4">Kids Journey Hub</h3>
-              <p className="text-gray-400">
-                Quality kids clothing and accessories for your little ones.
-              </p>
+                    </div>
+                    {product.stock === 0 && (
+                      <Badge
+                        variant="secondary"
+                        className="mt-2 bg-red-100 text-red-800"
+                      >
+                        Out of Stock
+                      </Badge>
+                    )}
+                  </CardContent>
+                  <CardFooter className="p-4 pt-0">
+                    <Button
+                      className="w-full"
+                      disabled={product.stock === 0}
+                      asChild={product.stock > 0}
+                    >
+                      {product.stock > 0 ? (
+                        <Link href={`/products/${product.slug}`}>
+                          View Details
+                        </Link>
+                      ) : (
+                        "Out of Stock"
+                      )}
+                    </Button>
+                  </CardFooter>
+                </Card>
+              ))}
             </div>
-            <div>
-              <h4 className="font-semibold mb-4">Quick Links</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li>
-                  <Link href="/products" className="hover:text-white">
-                    Shop
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/categories" className="hover:text-white">
-                    Categories
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Contact</h4>
-              <p className="text-gray-400">
-                Accra, Ghana
-                <br />
-                Email: info@kidsjourneys.com
-              </p>
-            </div>
-          </div>
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2026 Kids Journey Hub. All rights reserved.</p>
-          </div>
+          )}
         </div>
-      </footer>
-    </div>
+      </section>
+    </StoreLayout>
   );
 }
