@@ -4,44 +4,49 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ShoppingCart } from "lucide-react";
-import Image from "next/image";
 
-export default async function HomePage() {
-  // Fetch featured products
-  const featuredProducts = await prisma.product.findMany({
-    where: {
-      isActive: true,
-      isFeatured: true,
-    },
+export default async function ProductsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string }>;
+}) {
+  const { category } = await searchParams;
+
+  // Fetch categories for filter
+  const categories = await prisma.category.findMany({
+    orderBy: { name: "asc" },
+  });
+
+  // Build filter query
+  const whereClause: any = {
+    isActive: true,
+  };
+
+  if (category) {
+    whereClause.categoryId = category;
+  }
+
+  // Fetch products
+  const products = await prisma.product.findMany({
+    where: whereClause,
     include: {
       category: true,
     },
-    take: 8,
+    orderBy: {
+      createdAt: "desc",
+    },
   });
 
-  // Fetch all active products if no featured
-  const allProducts =
-    featuredProducts.length === 0
-      ? await prisma.product.findMany({
-          where: { isActive: true },
-          include: { category: true },
-          take: 8,
-        })
-      : [];
-
-  const productsToShow =
-    featuredProducts.length > 0 ? featuredProducts : allProducts;
-
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* Header/Navigation */}
+    <div className="min-h-screen">
+      {/* Header */}
       <header className="border-b bg-white sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <Link href="/" className="text-2xl font-bold">
             Kids Journey Hub
           </Link>
           <nav className="flex gap-6 items-center">
-            <Link href="/products" className="hover:text-gray-600">
+            <Link href="/products" className="hover:text-gray-600 font-medium">
               Shop
             </Link>
             <Link href="/categories" className="hover:text-gray-600">
@@ -57,44 +62,58 @@ export default async function HomePage() {
         </div>
       </header>
 
-      {/* Main Content - wrapped with flex-grow */}
-      <main className="grow">
-        {/* Hero Section */}
-        <section className="bg-linear-to-r from-blue-50 to-purple-50 py-20">
-          <div className="container mx-auto px-4 text-center">
-            <h1 className="text-5xl font-bold mb-4">
-              Quality Kids Clothing & Accessories
-            </h1>
-            <p className="text-xl text-gray-600 mb-8">
-              Comfortable, stylish, and affordable clothing for your little ones
-            </p>
-            <Button size="lg" asChild>
-              <Link href="/products">Shop Now</Link>
-            </Button>
-          </div>
-        </section>
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex flex-col md:flex-row gap-8">
+          {/* Sidebar - Categories Filter */}
+          <aside className="w-full md:w-64 shrink-0">
+            <div className="bg-white rounded-lg border p-6 sticky top-24">
+              <h2 className="text-xl font-bold mb-4">Categories</h2>
+              <div className="space-y-2">
+                <Link href="/products">
+                  <Button
+                    variant={!category ? "default" : "ghost"}
+                    className="w-full justify-start"
+                  >
+                    All Products
+                  </Button>
+                </Link>
+                {categories.map((cat) => (
+                  <Link key={cat.id} href={`/products?category=${cat.id}`}>
+                    <Button
+                      variant={category === cat.id ? "default" : "ghost"}
+                      className="w-full justify-start"
+                    >
+                      {cat.name}
+                    </Button>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </aside>
 
-        {/* Featured Products */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
-            <div className="flex justify-between items-center mb-8">
-              <h2 className="text-3xl font-bold">
-                {featuredProducts.length > 0
-                  ? "Featured Products"
-                  : "Our Products"}
-              </h2>
-              <Button variant="outline" asChild>
-                <Link href="/products">View All</Link>
-              </Button>
+          {/* Main Content - Products Grid */}
+          <main className="flex-1">
+            <div className="mb-6">
+              <h1 className="text-3xl font-bold">
+                {category
+                  ? categories.find((c) => c.id === category)?.name || "Products"
+                  : "All Products"}
+              </h1>
+              <p className="text-gray-600 mt-2">
+                {products.length} {products.length === 1 ? "product" : "products"} found
+              </p>
             </div>
 
-            {productsToShow.length === 0 ? (
+            {products.length === 0 ? (
               <div className="text-center py-12 bg-gray-50 rounded-lg">
-                <p className="text-gray-500">No products available yet</p>
+                <p className="text-gray-500 mb-4">No products found in this category</p>
+                <Button variant="outline" asChild>
+                  <Link href="/products">View All Products</Link>
+                </Button>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {productsToShow.map((product) => (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {products.map((product) => (
                   <Card
                     key={product.id}
                     className="overflow-hidden hover:shadow-lg transition-shadow"
@@ -102,7 +121,7 @@ export default async function HomePage() {
                     <Link href={`/products/${product.slug}`}>
                       <div className="aspect-square bg-gray-100 flex items-center justify-center">
                         {product.images.length > 0 ? (
-                          <Image
+                          <img
                             src={product.images[0]}
                             alt={product.name}
                             className="w-full h-full object-cover"
@@ -126,6 +145,11 @@ export default async function HomePage() {
                           {product.name}
                         </h3>
                       </Link>
+                      {product.description && (
+                        <p className="text-sm text-gray-600 mt-2 line-clamp-2">
+                          {product.description}
+                        </p>
+                      )}
                       <div className="mt-2 flex items-center gap-2">
                         <span className="text-xl font-bold">
                           GH₵ {product.price.toFixed(2)}
@@ -137,14 +161,21 @@ export default async function HomePage() {
                             </span>
                           )}
                       </div>
-                      {product.stock === 0 && (
-                        <Badge
-                          variant="secondary"
-                          className="mt-2 bg-red-100 text-red-800"
-                        >
-                          Out of Stock
-                        </Badge>
-                      )}
+                      <div className="mt-2 flex items-center justify-between">
+                        {product.stock === 0 ? (
+                          <Badge variant="secondary" className="bg-red-100 text-red-800">
+                            Out of Stock
+                          </Badge>
+                        ) : product.stock < 5 ? (
+                          <Badge variant="secondary" className="bg-orange-100 text-orange-800">
+                            Only {product.stock} left
+                          </Badge>
+                        ) : (
+                          <Badge variant="secondary" className="bg-green-100 text-green-800">
+                            In Stock
+                          </Badge>
+                        )}
+                      </div>
                     </CardContent>
                     <CardFooter className="p-4 pt-0">
                       <Button
@@ -153,9 +184,7 @@ export default async function HomePage() {
                         asChild={product.stock > 0}
                       >
                         {product.stock > 0 ? (
-                          <Link href={`/products/${product.slug}`}>
-                            View Details
-                          </Link>
+                          <Link href={`/products/${product.slug}`}>View Details</Link>
                         ) : (
                           "Out of Stock"
                         )}
@@ -165,11 +194,12 @@ export default async function HomePage() {
                 ))}
               </div>
             )}
-          </div>
-        </section>
-      </main>
+          </main>
+        </div>
+      </div>
 
-      <footer className="bg-gray-900 text-white py-12">
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white py-12 mt-20">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
