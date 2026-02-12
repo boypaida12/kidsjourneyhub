@@ -1,12 +1,9 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { ShoppingCart } from "lucide-react";
-import Image from "next/image";
 import { Prisma } from "@prisma/client";
 import StoreLayout from "@/components/store/store-layout";
+import ProductCard from "@/components/store/product-card";
 
 export default async function ProductsPage({
   searchParams,
@@ -95,96 +92,9 @@ export default async function ProductsPage({
                 </Button>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
                 {products.map((product) => (
-                  <Card
-                    key={product.id}
-                    className="overflow-hidden hover:shadow-lg transition-shadow"
-                  >
-                    <Link href={`/products/${product.slug}`}>
-                      <div className="aspect-square bg-gray-100 flex items-center justify-center">
-                        {product.images.length > 0 ? (
-                          <Image
-                            src={product.images[0]}
-                            alt={product.name}
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <div className="text-gray-400 text-center p-4">
-                            <ShoppingCart className="h-16 w-16 mx-auto mb-2" />
-                            <p>No image</p>
-                          </div>
-                        )}
-                      </div>
-                    </Link>
-                    <CardContent className="p-4">
-                      {product.category && (
-                        <Badge variant="secondary" className="mb-2">
-                          {product.category.name}
-                        </Badge>
-                      )}
-                      <Link href={`/products/${product.slug}`}>
-                        <h3 className="font-semibold text-lg hover:text-blue-600 line-clamp-2">
-                          {product.name}
-                        </h3>
-                      </Link>
-                      {product.description && (
-                        <p className="text-sm text-gray-600 mt-2 line-clamp-2">
-                          {product.description}
-                        </p>
-                      )}
-                      <div className="mt-2 flex items-center gap-2">
-                        <span className="text-xl font-bold">
-                          GH₵ {product.price.toFixed(2)}
-                        </span>
-                        {product.compareAtPrice &&
-                          product.compareAtPrice > product.price && (
-                            <span className="text-sm text-gray-500 line-through">
-                              GH₵ {product.compareAtPrice.toFixed(2)}
-                            </span>
-                          )}
-                      </div>
-                      <div className="mt-2 flex items-center justify-between">
-                        {product.stock === 0 ? (
-                          <Badge
-                            variant="secondary"
-                            className="bg-red-100 text-red-800"
-                          >
-                            Out of Stock
-                          </Badge>
-                        ) : product.stock < 5 ? (
-                          <Badge
-                            variant="secondary"
-                            className="bg-orange-100 text-orange-800"
-                          >
-                            Only {product.stock} left
-                          </Badge>
-                        ) : (
-                          <Badge
-                            variant="secondary"
-                            className="bg-green-100 text-green-800"
-                          >
-                            In Stock
-                          </Badge>
-                        )}
-                      </div>
-                    </CardContent>
-                    <CardFooter className="p-4 pt-0">
-                      <Button
-                        className="w-full"
-                        disabled={product.stock === 0}
-                        asChild={product.stock > 0}
-                      >
-                        {product.stock > 0 ? (
-                          <Link href={`/products/${product.slug}`}>
-                            View Details
-                          </Link>
-                        ) : (
-                          "Out of Stock"
-                        )}
-                      </Button>
-                    </CardFooter>
-                  </Card>
+                  <ProductCard key={product.id} product={product} />
                 ))}
               </div>
             )}

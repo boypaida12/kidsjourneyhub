@@ -18,6 +18,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Plus, ExternalLink } from "lucide-react";
 import CreateCategoryDialog from "./create-category-dialog";
+import ImageUpload from "./image-upload";
 
 type Category = {
   id: string;
@@ -66,6 +67,8 @@ export default function ProductForm({
     isFeatured: initialData?.isFeatured ?? false,
   });
 
+  const [images, setImages] = useState<string[]>(initialData?.images || []);
+
   // Auto-generate slug from name
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.value;
@@ -78,7 +81,6 @@ export default function ProductForm({
         .replace(/(^-|-$)/g, ""),
     });
   };
-
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -97,7 +99,7 @@ export default function ProductForm({
         },
         body: JSON.stringify({
           ...formData,
-          images: [], // We'll add image upload later
+          images: images,
         }),
       });
 
@@ -225,6 +227,26 @@ export default function ProductForm({
                 </div>
               </div>
             </div>
+          </CardContent>
+        </Card>
+
+        {/* Image Upload */}
+
+        {/* Product Images */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Product Images</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ImageUpload
+              images={images}
+              onImagesChange={setImages}
+              maxImages={5}
+            />
+            <p className="text-sm text-gray-500 mt-2">
+              The first image will be the main product image. You can upload up
+              to 5 images.
+            </p>
           </CardContent>
         </Card>
 

@@ -45,12 +45,14 @@ export default function CartPage() {
                         href={`/products/${item.slug}`}
                         className="shrink-0"
                       >
-                        <div className="w-24 h-24 bg-gray-100 rounded-lg overflow-hidden">
+                        <div className="relative w-24 h-24 bg-gray-100 rounded-lg overflow-hidden">
                           {item.image ? (
                             <Image
                               src={item.image}
                               alt={item.name}
-                              className="w-full h-full object-cover"
+                              fill
+                              sizes="96px"
+                              className="object-cover"
                             />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center">

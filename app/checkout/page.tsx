@@ -16,7 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowLeft, CreditCard } from "lucide-react";
+import { ArrowLeft, CreditCard, ShoppingCart } from "lucide-react";
 import StoreLayout from "@/components/store/store-layout";
 import Image from "next/image";
 
@@ -115,7 +115,6 @@ export default function CheckoutPage() {
 
       // Redirect to Paystack checkout
       window.location.href = paymentData.authorization_url;
-
     } catch (error) {
       console.error("Checkout error:", error);
       alert("Failed to process checkout. Please try again.");
@@ -249,12 +248,17 @@ export default function CheckoutPage() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="momo">Mobile Money (MTN, Vodafone, AirtelTigo)</SelectItem>
-                      <SelectItem value="bank">Bank Card (Visa, Mastercard)</SelectItem>
+                      <SelectItem value="momo">
+                        Mobile Money (MTN, Vodafone, AirtelTigo)
+                      </SelectItem>
+                      <SelectItem value="bank">
+                        Bank Card (Visa, Mastercard)
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                   <p className="text-sm text-gray-600 mt-2">
-                    You will be redirected to Paystack to complete your payment securely.
+                    You will be redirected to Paystack to complete your payment
+                    securely.
                   </p>
                 </CardContent>
               </Card>
@@ -288,17 +292,25 @@ export default function CheckoutPage() {
                   <div className="space-y-3 max-h-64 overflow-y-auto">
                     {items.map((item) => (
                       <div key={item.id} className="flex gap-3 text-sm">
-                        <div className="w-16 h-16 bg-gray-100 rounded shrink-0">
-                          {item.image && (
+                        <div className="relative w-16 h-16 bg-gray-100 rounded shrink-0">
+                          {item.image ? (
                             <Image
                               src={item.image}
                               alt={item.name}
-                              className="w-full h-full object-cover rounded"
+                              fill
+                              sizes="64px"
+                              className="object-cover rounded"
                             />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center">
+                              <ShoppingCart className="h-6 w-6 text-gray-400" />
+                            </div>
                           )}
                         </div>
                         <div className="flex-1">
-                          <p className="font-medium line-clamp-2">{item.name}</p>
+                          <p className="font-medium line-clamp-2">
+                            {item.name}
+                          </p>
                           <p className="text-gray-600">
                             GH₵ {item.price.toFixed(2)} × {item.quantity}
                           </p>
@@ -319,7 +331,9 @@ export default function CheckoutPage() {
                       <span className="text-gray-600">Shipping</span>
                       <span>
                         {shippingCost === 0 ? (
-                          <span className="text-green-600 font-medium">FREE</span>
+                          <span className="text-green-600 font-medium">
+                            FREE
+                          </span>
                         ) : (
                           `GH₵ ${shippingCost.toFixed(2)}`
                         )}
@@ -327,7 +341,8 @@ export default function CheckoutPage() {
                     </div>
                     {total < 200 && (
                       <p className="text-xs text-gray-500">
-                        Add GH₵ {(200 - total).toFixed(2)} more for free shipping
+                        Add GH₵ {(200 - total).toFixed(2)} more for free
+                        shipping
                       </p>
                     )}
                     <div className="border-t pt-2 flex justify-between text-lg font-bold">
