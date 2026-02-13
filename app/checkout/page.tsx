@@ -16,9 +16,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowLeft, CreditCard, ShoppingCart } from "lucide-react";
+import { ArrowLeft, CreditCard, Truck } from "lucide-react";
 import StoreLayout from "@/components/store/store-layout";
 import Image from "next/image";
+import { ShoppingCart } from "lucide-react";
+
+const COD_THRESHOLD = 200;
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -36,7 +39,16 @@ export default function CheckoutPage() {
     notes: "",
   });
 
-  // Redirect if cart is empty
+  const shippingCost = total >= 200 ? 0 : 20;
+  const finalTotal = total + shippingCost;
+  const isCODAvailable = finalTotal < COD_THRESHOLD;
+  const isCOD = formData.paymentMethod === "cod";
+
+  // If COD is selected but order is now above threshold, reset payment method
+  const handlePaymentMethodChange = (value: string) => {
+    setFormData({ ...formData, paymentMethod: value });
+  };
+
   if (items.length === 0) {
     return (
       <StoreLayout>
@@ -50,20 +62,11 @@ export default function CheckoutPage() {
     );
   }
 
-  const shippingCost = total >= 200 ? 0 : 20; // Free shipping over GH₵ 200
-  const finalTotal = total + shippingCost;
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsProcessing(true);
-
+  const handleCODSubmit = async () => {
     try {
-      // Create order
-      const orderResponse = await fetch("/api/checkout", {
+      const response = await fetch("/api/checkout/cod", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           customer: {
             name: formData.name,
@@ -80,7 +83,6 @@ export default function CheckoutPage() {
             quantity: item.quantity,
             price: item.price,
           })),
-          paymentMethod: formData.paymentMethod,
           notes: formData.notes,
           subtotal: total,
           shippingCost,
@@ -88,37 +90,74 @@ export default function CheckoutPage() {
         }),
       });
 
-      if (!orderResponse.ok) {
-        throw new Error("Failed to create order");
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || "Failed to place order");
       }
 
-      const orderData = await orderResponse.json();
+      const data = await response.json();
+      clearCart();
 
-      // Initialize Paystack payment
-      const paymentResponse = await fetch("/api/payment/initialize", {
+      // Redirect to COD confirmation page
+      router.push(`/checkout/confirmation?orderNumber=${data.orderNumber}`);
+    } catch (error) {
+      console.error("COD error:", error);
+      alert(
+        error instanceof Error ? error.message : "Failed to place order"
+      );
+      setIsProcessing(false);
+    }
+  };
+
+  const handleOnlinePayment = async () => {
+    try {
+      const response = await fetch("/api/payment/initialize", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          orderId: orderData.order.id,
           email: formData.email,
           amount: finalTotal,
+          customerName: formData.name,
+          customerPhone: formData.phone,
+          shipping: {
+            address: formData.address,
+            city: formData.city,
+            region: formData.region,
+          },
+          items: items.map((item) => ({
+            productId: item.id,
+            quantity: item.quantity,
+            price: item.price,
+            name: item.name,
+          })),
+          paymentMethod: formData.paymentMethod,
+          notes: formData.notes,
+          subtotal: total,
+          shippingCost,
         }),
       });
 
-      if (!paymentResponse.ok) {
+      if (!response.ok) {
         throw new Error("Failed to initialize payment");
       }
 
-      const paymentData = await paymentResponse.json();
-
-      // Redirect to Paystack checkout
+      const paymentData = await response.json();
       window.location.href = paymentData.authorization_url;
     } catch (error) {
-      console.error("Checkout error:", error);
-      alert("Failed to process checkout. Please try again.");
+      console.error("Payment error:", error);
+      alert("Failed to initialize payment. Please try again.");
       setIsProcessing(false);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsProcessing(true);
+
+    if (isCOD) {
+      await handleCODSubmit();
+    } else {
+      await handleOnlinePayment();
     }
   };
 
@@ -144,7 +183,7 @@ export default function CheckoutPage() {
                   <CardTitle>Contact Information</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="space-y-1">
+                  <div>
                     <Label htmlFor="name">Full Name *</Label>
                     <Input
                       id="name"
@@ -156,7 +195,7 @@ export default function CheckoutPage() {
                       placeholder="John Doe"
                     />
                   </div>
-                  <div className="space-y-1">
+                  <div>
                     <Label htmlFor="email">Email *</Label>
                     <Input
                       id="email"
@@ -169,7 +208,7 @@ export default function CheckoutPage() {
                       placeholder="john@example.com"
                     />
                   </div>
-                  <div className="space-y-1">
+                  <div>
                     <Label htmlFor="phone">Phone Number *</Label>
                     <Input
                       id="phone"
@@ -191,7 +230,7 @@ export default function CheckoutPage() {
                   <CardTitle>Shipping Address</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="space-y-1">
+                  <div>
                     <Label htmlFor="address">Street Address *</Label>
                     <Input
                       id="address"
@@ -204,7 +243,7 @@ export default function CheckoutPage() {
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-1">
+                    <div>
                       <Label htmlFor="city">City *</Label>
                       <Input
                         id="city"
@@ -216,7 +255,7 @@ export default function CheckoutPage() {
                         placeholder="Accra"
                       />
                     </div>
-                    <div className="space-y-1">
+                    <div>
                       <Label htmlFor="region">Region</Label>
                       <Input
                         id="region"
@@ -236,30 +275,74 @@ export default function CheckoutPage() {
                 <CardHeader>
                   <CardTitle>Payment Method</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-1">
-                  <Label htmlFor="payment">Select Payment Method</Label>
-                  <Select
-                    value={formData.paymentMethod}
-                    onValueChange={(value) =>
-                      setFormData({ ...formData, paymentMethod: value })
-                    }
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="momo">
-                        Mobile Money (MTN, Vodafone, AirtelTigo)
-                      </SelectItem>
-                      <SelectItem value="bank">
-                        Bank Card (Visa, Mastercard)
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <p className="text-sm text-gray-600 mt-2">
-                    You will be redirected to Paystack to complete your payment
-                    securely.
-                  </p>
+                <CardContent className="space-y-4">
+                  <div>
+                    <Label htmlFor="payment">Select Payment Method</Label>
+                    <Select
+                      value={formData.paymentMethod}
+                      onValueChange={handlePaymentMethodChange}
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="momo">
+                          📱 Mobile Money (MTN, Vodafone, AirtelTigo)
+                        </SelectItem>
+                        <SelectItem value="card">
+                          💳 Bank Card (Visa, Mastercard)
+                        </SelectItem>
+                        {isCODAvailable && (
+                          <SelectItem value="cod">
+                            🤝 Cash on Delivery
+                          </SelectItem>
+                        )}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Payment method info */}
+                  {isCOD ? (
+                    <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+                      <div className="flex items-start gap-3">
+                        <Truck className="h-5 w-5 text-amber-600 mt-0.5" />
+                        <div>
+                          <p className="font-medium text-amber-800">
+                            Cash on Delivery
+                          </p>
+                          <p className="text-sm text-amber-700 mt-1">
+                            Pay GH₵ {finalTotal.toFixed(2)} in cash when your
+                            order arrives. Please have the exact amount ready.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                      <div className="flex items-start gap-3">
+                        <CreditCard className="h-5 w-5 text-blue-600 mt-0.5" />
+                        <div>
+                          <p className="font-medium text-blue-800">
+                            Secure Online Payment
+                          </p>
+                          <p className="text-sm text-blue-700 mt-1">
+                            You will be redirected to Paystack to complete your
+                            payment securely.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* COD not available message */}
+                  {!isCODAvailable && (
+                    <div className="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                      <p className="text-sm text-gray-600">
+                        💡 Cash on Delivery is only available for orders under
+                        GH₵ {COD_THRESHOLD.toFixed(2)}
+                      </p>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
 
@@ -275,7 +358,7 @@ export default function CheckoutPage() {
                       setFormData({ ...formData, notes: e.target.value })
                     }
                     placeholder="Any special instructions for your order..."
-                    rows={4}
+                    rows={3}
                   />
                 </CardContent>
               </Card>
@@ -357,13 +440,26 @@ export default function CheckoutPage() {
                     className="w-full"
                     disabled={isProcessing}
                   >
-                    <CreditCard className="h-5 w-5 mr-2" />
-                    {isProcessing ? "Processing..." : "Proceed to Payment"}
+                    {isCOD ? (
+                      <>
+                        <Truck className="h-5 w-5 mr-2" />
+                        {isProcessing ? "Placing Order..." : "Place Order"}
+                      </>
+                    ) : (
+                      <>
+                        <CreditCard className="h-5 w-5 mr-2" />
+                        {isProcessing
+                          ? "Processing..."
+                          : "Proceed to Payment"}
+                      </>
+                    )}
                   </Button>
 
-                  <p className="text-xs text-gray-500 text-center">
-                    Secured by Paystack
-                  </p>
+                  {!isCOD && (
+                    <p className="text-xs text-gray-500 text-center">
+                      Secured by Paystack
+                    </p>
+                  )}
                 </CardContent>
               </Card>
             </div>

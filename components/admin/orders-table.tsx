@@ -24,6 +24,7 @@ type Order = {
   total: number;
   status: string;
   paymentStatus: string;
+  paymentMethod: string;
   createdAt: Date;
   items: {
     id: string;
@@ -67,6 +68,19 @@ export default function OrdersTable({ orders }: { orders: Order[] }) {
     }
   };
 
+  const getPaymentMethodBadge = (method: string) => {
+    switch (method.toLowerCase()) {
+      case "momo":
+        return "Mobile Money";
+      case "card":
+        return "Bank Card";
+      case "cod":
+        return "Cash on Delivery";
+      default:
+        return method;
+    }
+  };
+
   return (
     <div className="bg-white rounded-lg border">
       <Table>
@@ -104,12 +118,17 @@ export default function OrdersTable({ orders }: { orders: Order[] }) {
                 GH₵ {order.total.toFixed(2)}
               </TableCell>
               <TableCell>
-                <Badge
-                  variant="secondary"
-                  className={getPaymentStatusColor(order.paymentStatus)}
-                >
-                  {order.paymentStatus}
-                </Badge>
+                <div className="space-y-1">
+                  <Badge
+                    variant="secondary"
+                    className={getPaymentStatusColor(order.paymentStatus)}
+                  >
+                    {order.paymentStatus}
+                  </Badge>
+                  <p className="text-xs text-gray-500">
+                    {getPaymentMethodBadge(order.paymentMethod)}
+                  </p>
+                </div>
               </TableCell>
               <TableCell>
                 <Badge

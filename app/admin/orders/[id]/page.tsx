@@ -264,7 +264,12 @@ export default async function OrderDetailPage({
                 <CardTitle>Update Order Status</CardTitle>
               </CardHeader>
               <CardContent>
-                <OrderStatusUpdate orderId={order.id} currentStatus={order.status} />
+                <OrderStatusUpdate
+                  orderId={order.id}
+                  currentStatus={order.status}
+                  currentPaymentStatus={order.paymentStatus}
+                  paymentMethod={order.paymentMethod}
+                />
               </CardContent>
             </Card>
           </div>
