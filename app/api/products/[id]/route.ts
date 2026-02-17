@@ -73,7 +73,7 @@ export async function PUT(
         price: parseFloat(price),
         compareAtPrice: compareAtPrice ? parseFloat(compareAtPrice) : null,
         costPrice: costPrice ? parseFloat(costPrice) : null,
-        sku,
+        sku: sku?.trim() || null,
         stock: parseInt(stock),
         images: images || [],
         categoryId: categoryId || null,

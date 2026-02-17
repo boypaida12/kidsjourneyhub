@@ -66,7 +66,7 @@ export async function POST(request: Request) {
         price: parseFloat(price),
         compareAtPrice: compareAtPrice ? parseFloat(compareAtPrice) : null,
         costPrice: costPrice ? parseFloat(costPrice) : null,
-        sku,
+        sku: sku?.trim() || null,
         stock: parseInt(stock) || 0,
         images: images || [],
         categoryId: categoryId || null,

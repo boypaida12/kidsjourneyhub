@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function StoreFooter() {
   return (
-    <footer className="bg-gray-900 text-white py-12 mt-20">
+    <footer className="bg-gray-900 text-white py-12">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
@@ -20,8 +20,8 @@ export default function StoreFooter() {
                 </Link>
               </li>
               <li>
-                <Link href="/categories" className="hover:text-white transition-colors">
-                  Categories
+                <Link href="/" className="hover:text-white transition-colors">
+                  About
                 </Link>
               </li>
             </ul>

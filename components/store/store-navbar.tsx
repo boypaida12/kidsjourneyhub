@@ -6,7 +6,8 @@ import CartBadge from "./cart-badge";
 
 const navLinks = [
   { href: "/products", label: "Shop" },
-  { href: "/categories", label: "Categories" },
+  { href: "/", label: "About" },
+  { href: "/", label: "Blog" },
 ];
 
 export default function StoreNavbar() {

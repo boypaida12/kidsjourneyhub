@@ -1,9 +1,13 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ShoppingBag } from "lucide-react";
+import { ShoppingBag, ShoppingCart, Check } from "lucide-react";
+import { useCart } from "@/lib/cart-context";
 
 type Product = {
   id: string;
@@ -19,16 +23,45 @@ type Product = {
 };
 
 export default function ProductCard({ product }: { product: Product }) {
+  const { addItem } = useCart();
+  const [isAdded, setIsAdded] = useState(false);
+
   const discountPercentage =
     product.compareAtPrice && product.compareAtPrice > product.price
       ? Math.round(
-          ((product.compareAtPrice - product.price) / product.compareAtPrice) *
-            100,
+          ((product.compareAtPrice - product.price) /
+            product.compareAtPrice) *
+            100
         )
       : null;
 
+  const isOutOfStock = product.stock === 0;
+  const isLowStock = product.stock > 0 && product.stock < 5;
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    // Prevent navigating to product page when clicking button
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (isOutOfStock) return;
+
+    addItem({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      quantity: 1,
+      slug: product.slug,
+      image: product.images[0],
+      stock: product.stock,
+    });
+
+    // Show "Added!" feedback briefly
+    setIsAdded(true);
+    setTimeout(() => setIsAdded(false), 1500);
+  };
+
   return (
-    <Card className="overflow-hidden hover:shadow-md transition-all duration-200 group flex flex-col">
+    <Card className="overflow-hidden hover:shadow-md transition-all duration-200 group flex flex-col py-0">
       {/* Product Image */}
       <Link href={`/products/${product.slug}`} className="relative block">
         <div className="relative w-full aspect-3/4 bg-gray-100 overflow-hidden">
@@ -57,7 +90,7 @@ export default function ProductCard({ product }: { product: Product }) {
           )}
 
           {/* Out of Stock Overlay */}
-          {product.stock === 0 && (
+          {isOutOfStock && (
             <div className="absolute inset-0 bg-white/70 flex items-center justify-center">
               <Badge variant="secondary" className="bg-gray-800 text-white">
                 Out of Stock
@@ -65,8 +98,8 @@ export default function ProductCard({ product }: { product: Product }) {
             </div>
           )}
 
-          {/* Low Stock */}
-          {product.stock > 0 && product.stock < 5 && (
+          {/* Low Stock Badge */}
+          {isLowStock && (
             <div className="absolute top-2 right-2">
               <Badge className="bg-orange-500 hover:bg-orange-500 text-white text-xs px-1.5 py-0.5">
                 Only {product.stock} left
@@ -100,19 +133,39 @@ export default function ProductCard({ product }: { product: Product }) {
         </div>
       </CardContent>
 
-      {/* Action Button */}
-      <CardFooter className="p-3 pt-0">
+      {/* Action Buttons */}
+      <CardFooter className="p-3 pt-0 flex flex-col gap-2">
+        {/* Add to Cart Button */}
         <Button
-          className="w-full h-8 text-sm"
-          disabled={product.stock === 0}
-          variant={product.stock === 0 ? "secondary" : "default"}
-          asChild={product.stock > 0}
+          className="h-8 text-xs w-full"
+          disabled={isOutOfStock || isAdded}
+          variant={isAdded ? "secondary" : "default"}
+          onClick={handleAddToCart}
         >
-          {product.stock > 0 ? (
-            <Link href={`/products/${product.slug}`}>View Details</Link>
-          ) : (
+          {isAdded ? (
+            <>
+              <Check className="h-3 w-3 mr-1" />
+              Added!
+            </>
+          ) : isOutOfStock ? (
             "Out of Stock"
+          ) : (
+            <>
+              <ShoppingCart className="h-3 w-3 mr-1" />
+              Add to Cart
+            </>
           )}
+        </Button>
+
+        {/* View Details Button */}
+        <Button
+          variant="outline"
+          className="h-8 text-xs w-full"
+          asChild
+        >
+          <Link href={`/products/${product.slug}`}>
+            View
+          </Link>
         </Button>
       </CardFooter>
     </Card>
