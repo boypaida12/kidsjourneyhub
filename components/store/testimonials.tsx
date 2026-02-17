@@ -1,34 +1,27 @@
 "use client"
 
 import { AnimatePresence, motion } from "framer-motion";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const testimonials = [
   {
-    text: "First testimonial goes here. Praising your product or service and expressing satisfaction.",
-    author: "Ansub",
+    text: "Mummy's Oasis helped me choose everything for my hospital bag on WhatsApp. They were patient and honest about what I really needed",
+    author: "Ama Serwaa, Expectant Mum, Accra",
     image:
-      "https://res.cloudinary.com/dfhp33ufc/image/upload/v1715276558/logos/t2awrrfzdvmg1chnzyfr.svg",
+      "👩🏾‍🦰",
   },
   {
-    text: "Another testimonial goes here. Praising your product or service and expressing satisfaction.",
-    author: "Lex Collins",
+    text: "I got hair accessories and little gifts for my niece. The items were colourful and fun – exactly like the pictures they sent.",
+    author: "Kofi Mensah, Gift Buyer, Kumasi",
 
     image:
-      "https://res.cloudinary.com/dfhp33ufc/image/upload/v1715276558/logos/pmblusboe7vkw8vxdknx.svg",
+      "🧔🏾‍♂️",
   },
   {
-    text: "Third testimonial goes here. Praising your product or service and expressing satisfaction.",
-    author: "Alex Jones",
+    text: "The bear clothing sets are so cute. My boys love them and the fabric is light enough for Ghana weather.",
+    author: "Gloria, Mum of 2, Takoradi",
     image:
-      "https://res.cloudinary.com/dfhp33ufc/image/upload/v1715276558/logos/tyos2ayezryjskox3wzs.svg",
-  },
-  {
-    text: "Fourth testimonial goes here. Praising your product or service and expressing satisfaction.",
-    author: "John Doe",
-    image:
-      "https://res.cloudinary.com/dfhp33ufc/image/upload/v1715276560/logos/nymiivu48d5lywhf9rpf.svg",
+      "👩🏾‍🦰",
   },
 ];
 
@@ -62,6 +55,7 @@ const TestimonialCarousel = () => {
   return (
     <section className="py-16 border">
       <div className="w-full">
+        <h2 className="text-3xl font-bold text-center mb-4">Why Choose Us</h2>
         <AnimatePresence mode="popLayout">
           <motion.div
             key={currentTestimonial}
@@ -77,8 +71,8 @@ const TestimonialCarousel = () => {
               duration: 0.5,
             }}
           >
-            <Image src={image} alt={author} className="m-0 h-24 w-24" width={96} height={96}/>
-            <p className="m-0 text-center text-2xl font-medium tracking-tight">
+            <p className="text-8xl">{image}</p>
+            <p className="m-0 text-center text-2xl font-medium tracking-tight max-w-4xl">
               &quot;{text}&quot;
             </p>
             <div className="mx-auto mt-5">

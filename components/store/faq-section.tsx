@@ -38,7 +38,7 @@ const FAQS = [
   {
     question: "Can I return or exchange a product?",
     answer:
-      "We accept returns and exchanges within 7 days of delivery for unused items in their original packaging. Please contact us via phone or email with your order number to initiate a return.",
+      "We accept returns and exchanges within 7 days of delivery for unused items in their original packaging. Please contact us via whatsapp or email with your order number to initiate a return.",
   },
   {
     question: "How do I track my order?",
@@ -100,7 +100,7 @@ export default function FaqSection() {
                 value={itemValue}
                 className={`rounded-xl overflow-hidden shadow-sm bg-white border-2 transition-colors duration-200 ${
                   isSelected
-                    ? "border-blue-500"
+                    ? "border-green-500"
                     : "border-transparent"
                 }`}
               >
