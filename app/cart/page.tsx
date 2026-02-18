@@ -145,7 +145,7 @@ export default function CartPage() {
                       <span>GH₵ {total.toFixed(2)}</span>
                     </div>
                   </div>
-                  <Button size="lg" className="w-full" asChild>
+                  <Button size="lg" className="w-full bg-[#FF8C00] hover:bg-[#FF8C00]" asChild>
                     <Link href="/checkout">Proceed to Checkout</Link>
                   </Button>
                 </CardContent>

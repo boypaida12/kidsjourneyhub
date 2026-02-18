@@ -1,27 +1,28 @@
 "use client"
 
 import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const testimonials = [
   {
-    text: "Mummy's Oasis helped me choose everything for my hospital bag on WhatsApp. They were patient and honest about what I really needed",
+    text: "Kids Journey Hub helped me choose everything for my hospital bag on WhatsApp. They were patient and honest about what I really needed",
     author: "Ama Serwaa, Expectant Mum, Accra",
     image:
-      "👩🏾‍🦰",
+      "/assets/feeding-mum.svg",
   },
   {
     text: "I got hair accessories and little gifts for my niece. The items were colourful and fun – exactly like the pictures they sent.",
     author: "Kofi Mensah, Gift Buyer, Kumasi",
 
     image:
-      "🧔🏾‍♂️",
+      "/assets/uncle.svg",
   },
   {
     text: "The bear clothing sets are so cute. My boys love them and the fabric is light enough for Ghana weather.",
     author: "Gloria, Mum of 2, Takoradi",
     image:
-      "👩🏾‍🦰",
+     "/assets/aunty.svg",
   },
 ];
 
@@ -55,7 +56,7 @@ const TestimonialCarousel = () => {
   return (
     <section className="py-16 border">
       <div className="w-full">
-        <h2 className="text-3xl font-bold text-center mb-4">Why Choose Us</h2>
+        <h2 className="text-3xl font-bold text-center mb-4 bg-linear-to-t from-[#FF8C00] via-[#FFD700] to-[#00AEEF] text-transparent bg-clip-text">Why Choose Us</h2>
         <AnimatePresence mode="popLayout">
           <motion.div
             key={currentTestimonial}
@@ -71,7 +72,7 @@ const TestimonialCarousel = () => {
               duration: 0.5,
             }}
           >
-            <p className="text-8xl">{image}</p>
+            <Image src={image} alt={author} className="m-0 h-18 w-18" width={72} height={72}/>
             <p className="m-0 text-center text-2xl font-medium tracking-tight max-w-4xl">
               &quot;{text}&quot;
             </p>

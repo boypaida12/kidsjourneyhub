@@ -46,7 +46,7 @@ export default function StoreFooter() {
                     height={24}
                   />
                 </Link>
-                <Link href="https://wa.me/0552483555" target="_blank" className="w-fit">
+                <Link href="https://wa.me/0245354884" target="_blank" className="w-fit">
                   <Image
                     src="/assets/whatsapp.svg"
                     alt="WhatsApp"

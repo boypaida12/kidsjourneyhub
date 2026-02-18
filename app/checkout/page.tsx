@@ -183,7 +183,7 @@ export default function CheckoutPage() {
                   <CardTitle>Contact Information</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div>
+                  <div className="space-y-1">
                     <Label htmlFor="name">Full Name *</Label>
                     <Input
                       id="name"
@@ -195,7 +195,7 @@ export default function CheckoutPage() {
                       placeholder="John Doe"
                     />
                   </div>
-                  <div>
+                  <div className="space-y-1">
                     <Label htmlFor="email">Email *</Label>
                     <Input
                       id="email"
@@ -208,7 +208,7 @@ export default function CheckoutPage() {
                       placeholder="john@example.com"
                     />
                   </div>
-                  <div>
+                  <div className="space-y-1">
                     <Label htmlFor="phone">Phone Number *</Label>
                     <Input
                       id="phone"
@@ -230,7 +230,7 @@ export default function CheckoutPage() {
                   <CardTitle>Shipping Address</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div>
+                  <div className="space-y-1">
                     <Label htmlFor="address">Street Address *</Label>
                     <Input
                       id="address"
@@ -243,7 +243,7 @@ export default function CheckoutPage() {
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
-                    <div>
+                    <div className="space-y-1">
                       <Label htmlFor="city">City *</Label>
                       <Input
                         id="city"
@@ -255,7 +255,7 @@ export default function CheckoutPage() {
                         placeholder="Accra"
                       />
                     </div>
-                    <div>
+                    <div className="space-y-1">
                       <Label htmlFor="region">Region</Label>
                       <Input
                         id="region"
@@ -276,7 +276,7 @@ export default function CheckoutPage() {
                   <CardTitle>Payment Method</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div>
+                  <div className="space-y-1">
                     <Label htmlFor="payment">Select Payment Method</Label>
                     <Select
                       value={formData.paymentMethod}
@@ -437,7 +437,7 @@ export default function CheckoutPage() {
                   <Button
                     type="submit"
                     size="lg"
-                    className="w-full"
+                    className="w-full bg-[#FF8C00] hover:bg-[#FF8C00]"
                     disabled={isProcessing}
                   >
                     {isCOD ? (

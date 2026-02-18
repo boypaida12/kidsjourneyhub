@@ -74,7 +74,7 @@ export default function FaqSection() {
       <div className="container mx-auto px-4 max-w-4xl">
         {/* Header */}
         <div className="text-center mb-10">
-          <h2 className="text-3xl font-bold mb-3">
+          <h2 className="mb-3 text-3xl font-bold bg-linear-to-r from-[#FF8C00] via-[#FFD700] to-[#00AEEF] text-transparent bg-clip-text">
             Frequently Asked Questions
           </h2>
           <p className="text-gray-500">
@@ -100,7 +100,7 @@ export default function FaqSection() {
                 value={itemValue}
                 className={`rounded-xl overflow-hidden shadow-sm bg-white border-2 transition-colors duration-200 ${
                   isSelected
-                    ? "border-green-500"
+                    ? "border-[#FFD700]"
                     : "border-transparent"
                 }`}
               >

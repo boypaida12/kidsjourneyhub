@@ -1,17 +1,22 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Sour_Gummy, Varela_Round } from "next/font/google";
 import "./globals.css";
 import AuthSessionProvider from "@/components/providers/session-provider";
 import { CartProvider } from "@/lib/cart-context";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Sour Gummy for headings
+const sourGummy = Sour_Gummy({
   subsets: ["latin"],
+  variable: "--font-heading",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+// Varela Round for body text
+const varelaRound = Varela_Round({
+  weight: "400", // Varela Round only has one weight
   subsets: ["latin"],
+  variable: "--font-body",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -27,7 +32,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${sourGummy.variable} ${varelaRound.variable} antialiased`}
       >
         <AuthSessionProvider>
           <CartProvider>{children}</CartProvider>

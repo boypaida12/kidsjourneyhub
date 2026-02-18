@@ -6,8 +6,8 @@ import CartBadge from "./cart-badge";
 
 const navLinks = [
   { href: "/products", label: "Shop" },
-  { href: "/", label: "About" },
-  { href: "/", label: "Blog" },
+  // { href: "/", label: "About" },
+  // { href: "/", label: "Blog" },
 ];
 
 export default function StoreNavbar() {
@@ -51,13 +51,13 @@ export default function StoreNavbar() {
   return (
     <>
       <header
-        className={`border-b bg-white sticky top-0 z-50 transition-shadow duration-200 ${
+        className={`border-b border-b-[#FFD700] bg-white sticky top-0 z-999 transition-shadow duration-200 ${
           isScrolled ? "shadow-md" : ""
         }`}
       >
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           {/* Logo */}
-          <Link href="/" className="text-2xl font-bold hover:text-gray-700 transition-colors">
+          <Link href="/" className="text-2xl font-family-heading font-semibold transition-colors bg-linear-to-r from-[#FF8C00] via-[#FFD700] to-[#00AEEF] text-transparent bg-clip-text">
             Kids Journey Hub
           </Link>
 
@@ -67,7 +67,7 @@ export default function StoreNavbar() {
               <Link
                 key={link.label}
                 href={link.href}
-                className="text-gray-700 hover:text-gray-900 font-medium transition-colors"
+                className="text-[#00afefee] hover:text-[#00AEEF] font-medium transition-colors"
               >
                 {link.label}
               </Link>

@@ -41,20 +41,22 @@ export default async function HomePage() {
     take: 10,
   });
 
+  const yourImageUrl = "https://res.cloudinary.com/dciojpfwx/image/upload/v1771376602/baby-natur-aNGHqUAITYc-unsplash_keh2mt.jpg"
+
   return (
     <StoreLayout>
       {/* ── Hero ────────────────────────────────────────── */}
-      <section className="bg-linear-to-r from-blue-50 to-purple-50 py-20">
-        <div className="md:w-3xl mx-auto px-4 text-center">
-          <h1 className="text-5xl font-bold mb-4">
-            Your trusted haven for baby and mum essentials
+      <section style={{ backgroundImage: `url(${yourImageUrl})` }}  className="relative py-20 bg-center md:min-h-[78vh] flex flex-col items-center justify-center after:absolute after:inset-0 after:content-[''] after:bg-black/90 after:opacity-50 after:z-10">
+        <div className="md:w-3xl mx-auto px-4 text-center z-50">
+          <h1 className="text-5xl font-bold mb-4 text-white">
+            Your <span className="bg-linear-to-r from-[#FF8C00] via-[#FFD700] to-[#00AEEF] text-transparent bg-clip-text capitalize">trusted haven</span> for baby and mum <span className="bg-linear-to-r from-[#FF8C00] via-[#FFD700] to-[#00AEEF] text-transparent bg-clip-text capitalize">essentials</span>
           </h1>
-          <p className="text-xl text-gray-600 mb-8">
+          <p className="text-xl text-white mb-8">
             Curated with love for expectant mums, new parents, and thoughtful
             gift buyers. Premium quality, easy ordering online.
           </p>
           <Link href="/products">
-            <Button size="lg" className="rounded-full">
+            <Button size="lg" className="bg-[#FF8C00] border border-[#FF8C00] rounded-full hover:bg-transparent hover:border-white text-white cursor-pointer">
               <ShoppingBag />
               Shop Now
             </Button>
@@ -68,12 +70,12 @@ export default async function HomePage() {
           <div className="container mx-auto px-4">
             <div className="flex justify-between items-center mb-8">
               <div>
-                <h2 className="text-3xl font-bold">Featured Products</h2>
+                <h2 className="text-3xl font-bold bg-linear-to-r from-[#FF8C00] via-[#FFD700] to-[#00AEEF] text-transparent bg-clip-text">Featured Products</h2>
                 <p className="text-gray-500 text-sm mt-1">
                   Hand-picked favourites just for you
                 </p>
               </div>
-              <Button variant="outline" asChild>
+              <Button className="hover:bg-[#FF8C00] text-[#FF8C00] border border-[#FF8C00] rounded-full bg-transparent hover:text-white cursor-pointer" asChild>
                 <Link href="/products" className="flex items-center gap-1">
                   View All
                   <ArrowRight className="h-4 w-4" />
@@ -95,12 +97,12 @@ export default async function HomePage() {
           <div className="container mx-auto px-4">
             <div className="flex justify-between items-center mb-8">
               <div>
-                <h2 className="text-3xl font-bold">New Arrivals</h2>
+                <h2 className="text-3xl font-bold bg-linear-to-r from-[#FF8C00] via-[#FFD700] to-[#00AEEF] text-transparent bg-clip-text">New Arrivals</h2>
                 <p className="text-gray-500 text-sm mt-1">
                   Fresh additions to our collection
                 </p>
               </div>
-              <Button variant="outline" asChild>
+              <Button asChild className="bg-[#FF8C00] border border-[#FF8C00] rounded-full hover:bg-transparent hover:text-[#FF8C00] cursor-pointer">
                 <Link href="/products" className="flex items-center gap-1">
                   See More
                   <ArrowRight className="h-4 w-4" />

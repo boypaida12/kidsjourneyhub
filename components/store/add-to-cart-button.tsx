@@ -88,7 +88,7 @@ export default function AddToCartButton({ product }: { product: Product }) {
       {/* Add to Cart Button */}
       <Button
         size="lg"
-        className="w-full"
+        className="w-full bg-[#FF8C00] hover:bg-[#FF8C00]"
         onClick={handleAddToCart}
         disabled={product.stock === 0 || isAdding}
       >

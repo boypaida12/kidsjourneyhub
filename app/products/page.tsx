@@ -50,7 +50,7 @@ export default async function ProductsPage({
                 <Link href="/products">
                   <Button
                     variant={!category ? "default" : "ghost"}
-                    className="w-full justify-start"
+                    className={`w-full justify-start ${!category ? "bg-[#FF8C00] hover:bg-[#FF8C00]" : "bg-transparent"}`}
                   >
                     All Products
                   </Button>
@@ -59,7 +59,7 @@ export default async function ProductsPage({
                   <Link key={cat.id} href={`/products?category=${cat.id}`}>
                     <Button
                       variant={category === cat.id ? "default" : "ghost"}
-                      className="w-full justify-start"
+                      className={`w-full justify-start ${category === cat.id ? "bg-[#FF8C00] hover:bg-[#FF8C00]" : "bg-transparent"}`}
                     >
                       {cat.name}
                     </Button>

@@ -94,7 +94,7 @@ export default async function ProductDetailPage({
             {product.category && (
               <Badge variant="secondary">{product.category.name}</Badge>
             )}
-            <h1 className="text-4xl font-bold">{product.name}</h1>
+            <h1 className="text-4xl font-bold bg-linear-to-tl from-[#FF8C00] via-[#FFD700] to-[#00AEEF] text-transparent bg-clip-text">{product.name}</h1>
             {/* Price */}
             <div className="flex items-center gap-4">
               <span className="text-3xl font-bold">

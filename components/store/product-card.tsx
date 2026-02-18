@@ -117,12 +117,12 @@ export default function ProductCard({ product }: { product: Product }) {
           </p>
         )}
         <Link href={`/products/${product.slug}`}>
-          <h3 className="font-medium text-sm leading-tight hover:text-blue-600 transition-colors line-clamp-2 min-h-10">
+          <h3 className="font-medium text-lg leading-tight bg-linear-to-r from-[#FF8C00] via-[#FFD700] to-[#00AEEF] text-transparent bg-clip-text transition-colors line-clamp-2 min-h-10">
             {product.name}
           </h3>
         </Link>
-        <div className="mt-2 flex items-center gap-2">
-          <span className="text-base font-bold">
+        <div className="flex items-center gap-2">
+          <span className="text-base font-bold text-[#00AEEF]">
             GH₵ {product.price.toFixed(2)}
           </span>
           {product.compareAtPrice && product.compareAtPrice > product.price && (
@@ -137,7 +137,7 @@ export default function ProductCard({ product }: { product: Product }) {
       <CardFooter className="p-3 pt-0 flex flex-col gap-2">
         {/* Add to Cart Button */}
         <Button
-          className="h-8 text-xs w-full"
+        className="h-8 text-xs w-full bg-[#FF8C00] hover:bg-[#FF8C00]"
           disabled={isOutOfStock || isAdded}
           variant={isAdded ? "secondary" : "default"}
           onClick={handleAddToCart}

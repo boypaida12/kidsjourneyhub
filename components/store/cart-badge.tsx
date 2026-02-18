@@ -12,8 +12,8 @@ export default function CartBadge() {
 
   return (
     <Link href="/cart">
-      <Button variant="outline" size="sm" className="relative">
-        <ShoppingCart className="h-4 w-4 mr-2" />
+      <Button size="sm" className="relative bg-[#FF8C00] border border-[#FF8C00] rounded-full hover:bg-transparent hover:text-[#FF8C00] cursor-pointer">
+        <ShoppingCart className="h-4 w-4" />
         Cart
         {mounted && itemCount > 0 && (
           <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
