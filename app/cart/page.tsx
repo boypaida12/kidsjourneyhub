@@ -27,7 +27,7 @@ export default function CartPage() {
             <CardContent className="text-center py-12">
               <ShoppingCart className="h-16 w-16 text-gray-400 mx-auto mb-4" />
               <p className="text-gray-500 mb-4">Your cart is empty</p>
-              <Button asChild>
+              <Button asChild className="bg-[#FF8C00] hover:bg-[#FF8C00]">
                 <Link href="/products">Start Shopping</Link>
               </Button>
             </CardContent>
