@@ -40,7 +40,8 @@ export default function CheckoutPage() {
   });
 
   const shippingCost = total >= 200 ? 0 : 20;
-  const finalTotal = total + shippingCost;
+  // const finalTotal = total + shippingCost;
+  const finalTotal = total;
   const isCODAvailable = finalTotal < COD_THRESHOLD;
   const isCOD = formData.paymentMethod === "cod";
 
@@ -410,8 +411,8 @@ export default function CheckoutPage() {
                       <span className="text-gray-600">Subtotal</span>
                       <span>GH₵ {total.toFixed(2)}</span>
                     </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Shipping</span>
+                    {/* <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">Delivery</span>
                       <span>
                         {shippingCost === 0 ? (
                           <span className="text-green-600 font-medium">
@@ -425,9 +426,9 @@ export default function CheckoutPage() {
                     {total < 200 && (
                       <p className="text-xs text-gray-500">
                         Add GH₵ {(200 - total).toFixed(2)} more for free
-                        shipping
+                        delivery within Accra
                       </p>
-                    )}
+                    )} */}
                     <div className="border-t pt-2 flex justify-between text-lg font-bold">
                       <span>Total</span>
                       <span>GH₵ {finalTotal.toFixed(2)}</span>

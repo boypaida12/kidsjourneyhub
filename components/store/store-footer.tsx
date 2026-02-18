@@ -16,7 +16,7 @@ export default function StoreFooter() {
             {/* Our Socials */}
             <div className="col-span-10 md:col-span-2">
               <div className="grid grid-cols-4 gap-2 w-fit">
-                <Link
+                {/* <Link
                   href="https://facebook.com/kidsjourneyhubandmore" target="_blank"
                   className="w-fit"
                 >
@@ -26,7 +26,7 @@ export default function StoreFooter() {
                     width={24}
                     height={24}
                   />
-                </Link>
+                </Link> */}
                 <Link
                   href="https://www.instagram.com/kidsjourneyhubandmore?igsh=MTRva2d5MTd5N2ZyYw==" target="_blank"
                   className="w-fit"

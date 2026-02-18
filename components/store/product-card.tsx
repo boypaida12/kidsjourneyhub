@@ -64,7 +64,7 @@ export default function ProductCard({ product }: { product: Product }) {
     <Card className="overflow-hidden hover:shadow-md transition-all duration-200 group flex flex-col py-0">
       {/* Product Image */}
       <Link href={`/products/${product.slug}`} className="relative block">
-        <div className="relative w-full aspect-3/4 bg-gray-100 overflow-hidden">
+        <div className="relative w-full aspect-square bg-gray-100 overflow-hidden">
           {product.images.length > 0 ? (
             <Image
               src={product.images[0]}
@@ -110,18 +110,18 @@ export default function ProductCard({ product }: { product: Product }) {
       </Link>
 
       {/* Product Info */}
-      <CardContent className="p-3 flex-1">
+      <CardContent className="ps-3 md:p-3 flex-1">
         {product.category && (
           <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">
             {product.category.name}
           </p>
         )}
         <Link href={`/products/${product.slug}`}>
-          <h3 className="font-medium text-lg leading-tight bg-linear-to-r from-[#FF8C00] via-[#FFD700] to-[#00AEEF] text-transparent bg-clip-text transition-colors line-clamp-2 min-h-10">
+          <h3 className="font-medium md:text-lg leading-tight bg-linear-to-r from-[#FF8C00] via-[#FFD700] to-[#00AEEF] text-transparent bg-clip-text transition-colors line-clamp-2 min-h-10">
             {product.name}
           </h3>
         </Link>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center lg:gap-2">
           <span className="text-base font-bold text-[#00AEEF]">
             GH₵ {product.price.toFixed(2)}
           </span>

@@ -151,10 +151,10 @@ export default async function OrderDetailPage({
                     <span className="text-gray-600">Subtotal</span>
                     <span>GH₵ {order.subtotal.toFixed(2)}</span>
                   </div>
-                  <div className="flex justify-between text-sm">
+                  {/* <div className="flex justify-between text-sm">
                     <span className="text-gray-600">Shipping</span>
                     <span>GH₵ {order.shippingCost.toFixed(2)}</span>
-                  </div>
+                  </div> */}
                   <div className="flex justify-between text-lg font-bold border-t pt-2">
                     <span>Total</span>
                     <span>GH₵ {order.total.toFixed(2)}</span>

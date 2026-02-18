@@ -73,7 +73,7 @@ const TestimonialCarousel = () => {
             }}
           >
             <Image src={image} alt={author} className="m-0 h-18 w-18" width={72} height={72}/>
-            <p className="m-0 text-center text-2xl font-medium tracking-tight max-w-4xl">
+            <p className="max-md:m-2 text-center md:text-2xl font-medium tracking-tight max-w-4xl">
               &quot;{text}&quot;
             </p>
             <div className="mx-auto mt-5">

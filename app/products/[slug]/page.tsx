@@ -166,7 +166,7 @@ export default async function ProductDetailPage({
             <AddToCartButton product={product} />
             {/* Shipping Info */}
             <div className="border-t pt-6 space-y-3">
-              <div className="flex items-start gap-3">
+              {/* <div className="flex items-start gap-3">
                 <Truck className="h-5 w-5 text-gray-600 mt-0.5" />
                 <div>
                   <p className="font-medium">Free Delivery</p>
@@ -174,7 +174,7 @@ export default async function ProductDetailPage({
                     On orders over GH₵ 200 within Accra
                   </p>
                 </div>
-              </div>
+              </div> */}
               <div className="flex items-start gap-3">
                 <Package className="h-5 w-5 text-gray-600 mt-0.5" />
                 <div>

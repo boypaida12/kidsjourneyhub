@@ -39,7 +39,7 @@ export default function CartPage() {
               {items.map((item) => (
                 <Card key={item.id}>
                   <CardContent className="p-6">
-                    <div className="flex gap-4">
+                    <div className="lg:flex gap-4">
                       {/* Product Image */}
                       <Link
                         href={`/products/${item.slug}`}
@@ -64,7 +64,7 @@ export default function CartPage() {
                       {/* Product Info */}
                       <div className="flex-1">
                         <Link href={`/products/${item.slug}`}>
-                          <h3 className="font-semibold hover:text-blue-600">
+                          <h3 className="font-semibold hover:text-[#00AEEF]">
                             {item.name}
                           </h3>
                         </Link>
