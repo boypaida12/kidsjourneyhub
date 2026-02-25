@@ -34,13 +34,11 @@ export default function CartPage() {
           </Card>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Cart Items */}
             <div className="lg:col-span-2 space-y-4">
               {items.map((item) => (
                 <Card key={item.id}>
                   <CardContent className="p-6">
                     <div className="lg:flex gap-4">
-                      {/* Product Image */}
                       <Link
                         href={`/products/${item.slug}`}
                         className="shrink-0"
@@ -61,7 +59,6 @@ export default function CartPage() {
                           )}
                         </div>
                       </Link>
-                      {/* Product Info */}
                       <div className="flex-1">
                         <Link href={`/products/${item.slug}`}>
                           <h3 className="font-semibold hover:text-[#00AEEF]">
@@ -72,7 +69,6 @@ export default function CartPage() {
                           GH₵ {item.price.toFixed(2)}
                         </p>
                         <div className="flex items-center gap-4 mt-4">
-                          {/* Quantity Control */}
                           <div className="flex items-center border rounded-lg">
                             <Button
                               variant="ghost"
@@ -105,7 +101,6 @@ export default function CartPage() {
                               <Plus className="h-4 w-4" />
                             </Button>
                           </div>
-                          {/* Remove Button */}
                           <Button
                             variant="ghost"
                             size="sm"
@@ -115,7 +110,6 @@ export default function CartPage() {
                           </Button>
                         </div>
                       </div>
-                      {/* Item Total */}
                       <div className="text-right">
                         <p className="text-lg font-bold">
                           GH₵ {(item.price * item.quantity).toFixed(2)}
@@ -126,7 +120,6 @@ export default function CartPage() {
                 </Card>
               ))}
             </div>
-            {/* Order Summary */}
             <div>
               <Card className="sticky top-24">
                 <CardContent className="p-6">

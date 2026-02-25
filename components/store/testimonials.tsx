@@ -14,7 +14,6 @@ const testimonials = [
   {
     text: "I got hair accessories and little gifts for my niece. The items were colourful and fun – exactly like the pictures they sent.",
     author: "Kofi Mensah, Gift Buyer, Kumasi",
-
     image:
       "/assets/uncle.svg",
   },
@@ -34,7 +33,7 @@ const TestimonialCarousel = () => {
       setCurrentTestimonial(
         (prevTestimonial) => (prevTestimonial + 1) % testimonials.length,
       );
-    }, 5000); // Change Time here
+    }, 5000);
 
     return () => {
       clearInterval(intervalId);

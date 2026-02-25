@@ -13,7 +13,7 @@ const FAQS = [
   {
     question: "What age range do your products cater to?",
     answer:
-      "Our products cater to newborns all the way up to children aged 12 years. We also stock essentials for expectant and new mums. Each product listing includes age and size recommendations to help you choose the right fit.",
+      "Our products cater to newborns all the way up to teenagers. We also stock essentials for expectant and new mums. Each product listing includes age and size recommendations to help you choose the right fit.",
   },
   {
     question: "How do I place an order?",
@@ -33,12 +33,12 @@ const FAQS = [
   {
     question: "Is free delivery available?",
     answer:
-      "Yes! We offer free delivery on all orders above GH₵ 200 within Accra. Orders below GH₵ 200 attract a flat delivery fee of GH₵ 20.",
+      "Yes! We offer free delivery on all orders above GH₵ 200 within Accra.",
   },
   {
     question: "Can I return or exchange a product?",
     answer:
-      "We accept returns and exchanges within 7 days of delivery for unused items in their original packaging. Please contact us via whatsapp or email with your order number to initiate a return.",
+      "Please contact us via whatsapp 0245354884 or email mommysoasis25@gmail.com with your order number to initiate a return.",
   },
   {
     question: "How do I track my order?",
@@ -72,7 +72,6 @@ export default function FaqSection() {
   return (
     <section className="py-16 bg-gray-50" id="faq">
       <div className="container mx-auto px-4 max-w-4xl">
-        {/* Header */}
         <div className="text-center mb-10">
           <h2 className="mb-3 text-3xl font-bold bg-linear-to-r from-[#FF8C00] via-[#FFD700] to-[#00AEEF] text-transparent bg-clip-text">
             Frequently Asked Questions
@@ -82,7 +81,6 @@ export default function FaqSection() {
           </p>
         </div>
 
-        {/* Accordion */}
         <Accordion
           type="single"
           collapsible
@@ -119,7 +117,6 @@ export default function FaqSection() {
           })}
         </Accordion>
 
-        {/* View More / View Less */}
         {FAQS.length > INITIAL_DISPLAY_COUNT && (
           <div className="mt-8 text-center">
             <Button

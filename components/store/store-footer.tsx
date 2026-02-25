@@ -1,3 +1,4 @@
+import { LucideMail } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -13,7 +14,6 @@ export default function StoreFooter() {
                 Quality kids clothing and accessories for your little ones.
               </p>
             </div>
-            {/* Our Socials */}
             <div className="col-span-10 md:col-span-2">
               <div className="grid grid-cols-4 gap-2 w-fit">
                 {/* <Link
@@ -28,7 +28,8 @@ export default function StoreFooter() {
                   />
                 </Link> */}
                 <Link
-                  href="https://www.instagram.com/kidsjourneyhubandmore?igsh=MTRva2d5MTd5N2ZyYw==" target="_blank"
+                  href="https://www.instagram.com/kidsjourneyhubandmore?igsh=MTRva2d5MTd5N2ZyYw=="
+                  target="_blank"
                   className="w-fit"
                 >
                   <Image
@@ -38,7 +39,11 @@ export default function StoreFooter() {
                     height={24}
                   />
                 </Link>
-                <Link href="https://www.tiktok.com/@kidsjourneyhubandmore" target="_blank" className="w-fit">
+                <Link
+                  href="https://www.tiktok.com/@kidsjourneyhubandmore"
+                  target="_blank"
+                  className="w-fit"
+                >
                   <Image
                     src="/assets/tiktok.svg"
                     alt="TikTok"
@@ -46,7 +51,11 @@ export default function StoreFooter() {
                     height={24}
                   />
                 </Link>
-                <Link href="https://wa.me/0245354884" target="_blank" className="w-fit">
+                <Link
+                  href="https://wa.me/0245354884"
+                  target="_blank"
+                  className="w-fit"
+                >
                   <Image
                     src="/assets/whatsapp.svg"
                     alt="WhatsApp"
@@ -77,11 +86,12 @@ export default function StoreFooter() {
           </div>
           <div>
             <h4 className="font-semibold mb-4">Contact</h4>
-            <p className="text-gray-400">
-              Accra, Ghana
-              <br />
-              Email: info@kidsjourneys.com
-            </p>
+            <div className="text-gray-400">
+              <p>Accra, Ghana</p>
+              <div className="flex gap-1">
+                <LucideMail></LucideMail> mommysoasis25@gmail.com
+              </div>
+            </div>
           </div>
         </div>
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">

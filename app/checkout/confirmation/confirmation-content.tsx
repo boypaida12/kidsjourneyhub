@@ -29,8 +29,6 @@ export default function CODConfirmationContent() {
               <p className="text-lg font-bold">#{orderNumber}</p>
             </div>
           )}
-
-          {/* COD Instructions */}
           <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 text-left space-y-3">
             <div className="flex items-start gap-3">
               <Truck className="h-5 w-5 text-amber-600 mt-0.5 shrink-0" />

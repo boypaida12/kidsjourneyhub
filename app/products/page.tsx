@@ -4,6 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Prisma } from "@prisma/client";
 import StoreLayout from "@/components/store/store-layout";
 import ProductCard from "@/components/store/product-card";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 export default async function ProductsPage({
   searchParams,
@@ -42,7 +49,6 @@ export default async function ProductsPage({
       {/* Header */}
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col md:flex-row gap-8">
-          {/* Sidebar - Categories Filter */}
           <aside className="w-full md:w-64 shrink-0">
             <div className="bg-white rounded-lg border p-6 sticky top-24">
               <h2 className="text-xl font-bold mb-4">Categories</h2>
@@ -68,7 +74,6 @@ export default async function ProductsPage({
               </div>
             </div>
           </aside>
-          {/* Main Content - Products Grid */}
           <main className="flex-1">
             <div className="mb-6">
               <h1 className="text-3xl font-bold">
@@ -92,10 +97,28 @@ export default async function ProductsPage({
                 </Button>
               </div>
             ) : (
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-                {products.map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
+              <div className="relative">
+                <Carousel
+                  opts={{
+                    align: "start",
+                    loop: false,
+                  }}
+                >
+                  <CarouselContent className="py-2">
+                    {products.map((product) => (
+                      <CarouselItem
+                        key={product.id}
+                        className="max-[24rem]:basis-2/3 max-md:basis-1/2 basis-1/3 xl:basis-1/4"
+                      >
+                        <ProductCard product={product} />
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <div className="absolute -top-12 right-0 flex gap-2">
+                    <CarouselPrevious className="static translate-y-0 text-[#FF8C00]" />
+                    <CarouselNext className="static translate-y-0 text-[#FF8C00]" />
+                  </div>
+                </Carousel>
               </div>
             )}
           </main>
