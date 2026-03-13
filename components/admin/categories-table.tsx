@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import {
   Table,
   TableBody,
@@ -22,7 +23,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import EditCategoryDialog from "./edit-category-dialog";
+import { toast } from "sonner";
 
 type Category = {
   id: string;
@@ -57,11 +58,11 @@ export default function CategoriesTable({
         setDeleteId(null);
       } else {
         const error = await response.json();
-        alert(error.error || "Failed to delete category");
+        toast.error(error.error || "Failed to delete category");
       }
     } catch (error) {
       console.error("Error deleting category:", error);
-      alert("Failed to delete category");
+      toast.error("Failed to delete category");
     } finally {
       setIsDeleting(false);
     }
@@ -102,14 +103,14 @@ export default function CategoriesTable({
                 </TableCell>
                 <TableCell className="text-right">
                   <div className="flex justify-end gap-2">
-                    <EditCategoryDialog
-                      category={category}
-                      trigger={
-                        <Button variant="outline" size="sm">
-                          <Edit className="h-4 w-4" />
-                        </Button>
-                      }
-                    />
+                    {/* Edit Button - Goes to full page */}
+                    <Button variant="outline" size="sm" asChild>
+                      <Link href={`/admin/categories/${category.id}/edit`}>
+                        <Edit className="h-4 w-4" />
+                      </Link>
+                    </Button>
+
+                    {/* Delete Button */}
                     <Button
                       variant="outline"
                       size="sm"
