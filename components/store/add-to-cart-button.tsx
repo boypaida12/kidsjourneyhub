@@ -23,12 +23,14 @@ export default function AddToCartButton({ product }: { product: Product }) {
   const handleAddToCart = () => {
     setIsAdding(true);
     addItem({
-      id: product.id,
+      productId: product.id, // ✅ Changed from 'id' to 'productId'
+      variantId: null, // ✅ Add this (null for simple products)
       name: product.name,
+      variantName: null, // ✅ Add this (null for simple products)
       price: product.price,
       quantity,
       slug: product.slug,
-      image: product.images[0],
+      image: product.images[0] || "",
       stock: product.stock,
     });
 
@@ -80,9 +82,7 @@ export default function AddToCartButton({ product }: { product: Product }) {
             <Plus className="h-4 w-4" />
           </Button>
         </div>
-        <span className="text-sm text-gray-600">
-          {product.stock} available
-        </span>
+        <span className="text-sm text-gray-600">{product.stock} available</span>
       </div>
 
       {/* Add to Cart Button */}
@@ -93,7 +93,11 @@ export default function AddToCartButton({ product }: { product: Product }) {
         disabled={product.stock === 0 || isAdding}
       >
         <ShoppingCart className="h-5 w-5 mr-2" />
-        {isAdding ? "Added!" : product.stock === 0 ? "Out of Stock" : "Add to Cart"}
+        {isAdding
+          ? "Added!"
+          : product.stock === 0
+            ? "Out of Stock"
+            : "Add to Cart"}
       </Button>
     </div>
   );

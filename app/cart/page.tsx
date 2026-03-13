@@ -62,7 +62,7 @@ export default function CartPage() {
                       <div className="flex-1">
                         <Link href={`/products/${item.slug}`}>
                           <h3 className="font-semibold hover:text-[#00AEEF]">
-                            {item.name}
+                            {item.name} ({item.variantName})
                           </h3>
                         </Link>
                         <p className="text-lg font-bold mt-1">
@@ -129,16 +129,20 @@ export default function CartPage() {
                       <span className="text-gray-600">Items ({itemCount})</span>
                       <span>GH₵ {total.toFixed(2)}</span>
                     </div>
-                    <div className="flex justify-between">
+                    {/* <div className="flex justify-between">
                       <span className="text-gray-600">Shipping</span>
                       <span>Calculated at checkout</span>
-                    </div>
+                    </div> */}
                     <div className="border-t pt-3 flex justify-between text-lg font-bold">
                       <span>Total</span>
                       <span>GH₵ {total.toFixed(2)}</span>
                     </div>
                   </div>
-                  <Button size="lg" className="w-full bg-[#FF8C00] hover:bg-[#FF8C00]" asChild>
+                  <Button
+                    size="lg"
+                    className="w-full bg-[#FF8C00] hover:bg-[#FF8C00] rounded-full"
+                    asChild
+                  >
                     <Link href="/checkout">Proceed to Checkout</Link>
                   </Button>
                 </CardContent>

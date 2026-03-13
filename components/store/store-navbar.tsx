@@ -17,6 +17,8 @@ export default function StoreNavbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const { itemCount } = useCart();
 
+  const isClient = typeof window !== "undefined";
+
   // Close menu when clicking on a link
   const closeMenu = () => setIsMenuOpen(false);
 
@@ -134,18 +136,22 @@ export default function StoreNavbar() {
           </div>
         </div>
       </div>
-      <Link
-        href="/cart"
-        className="md:hidden fixed bottom-6 right-6 z-50 bg-[#FF8C00] text-white rounded-full p-4 shadow-lg transition-all duration-200 hover:scale-110"
-        aria-label="View cart"
-      >
-        <ShoppingCart className="h-6 w-6" />
-        {itemCount > 0 && (
-          <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center">
-            {itemCount}
-          </span>
-        )}
-      </Link>
+      {isClient && (
+        <div suppressHydrationWarning>
+          <Link
+            href="/cart"
+            className="md:hidden fixed bottom-6 right-6 z-50 bg-black text-white rounded-none p-4 shadow-lg transition-all duration-200 hover:scale-110"
+            aria-label="View cart"
+          >
+            <ShoppingCart className="h-6 w-6" />
+            {itemCount > 0 && (
+              <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center">
+                {itemCount}
+              </span>
+            )}
+          </Link>
+        </div>
+      )}
     </>
   );
 }
