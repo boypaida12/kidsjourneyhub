@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import CategoryFiltersForm from "@/components/admin/category-filters-form";
+import { toast } from "sonner";
 
 // Proper type definitions
 type CategoryFilter = {
@@ -53,16 +54,16 @@ export default function CategoryEditForm({ category }: { category: Category }) {
       });
 
       if (response.ok) {
-        alert("Category updated successfully!");
+        toast.success("Category updated successfully!");
         router.push("/admin/categories");
         router.refresh();
       } else {
         const error = await response.json();
-        alert(error.error || "Failed to update category");
+        toast.error(error.error || "Failed to update category");
       }
     } catch (error) {
       console.error("Error updating category:", error);
-      alert("Failed to update category");
+      toast.error("Failed to update category");
     } finally {
       setIsSubmitting(false);
     }
@@ -80,6 +81,7 @@ export default function CategoryEditForm({ category }: { category: Category }) {
     }
 
     router.refresh();
+    toast.success("Filter successfully updated!")
   };
 
   return (
@@ -140,7 +142,7 @@ export default function CategoryEditForm({ category }: { category: Category }) {
           <CardTitle>Product Filters</CardTitle>
           <p className="text-sm text-gray-500 mt-1">
             Add filters that customers can use to narrow down products in this
-            category (e.g., Size, Color, Fragrance Type)
+            category (e.g., Size, Color)
           </p>
         </CardHeader>
         <CardContent>

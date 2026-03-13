@@ -157,6 +157,15 @@ export async function POST(request: Request) {
       console.log("  Product name:", product.name);
       console.log("  Variants created:", product.variants.length);
       console.log("  Variant details:");
+      product.variants.forEach((v, i) => {
+        console.log(`    Variant ${i + 1}:`, {
+          id: v.id,
+          name: v.name,
+          price: v.price,
+          stock: v.stock,
+          variants: v.attributes
+        });
+      });
       console.log("========================================");
 
       return NextResponse.json(product);
