@@ -55,7 +55,7 @@ export default async function HomePage() {
         className="relative py-20 bg-center md:min-h-[78vh] flex flex-col items-center justify-center after:absolute after:inset-0 after:content-[''] after:bg-black/90 after:opacity-50 after:z-10"
       >
         <div className="md:w-3xl mx-auto px-4 text-center z-50">
-          <h1 className="text-5xl font-bold mb-4 text-white">
+          <h1 className="max-sm:text-3xl text-5xl font-bold mb-4 text-white">
             Your{" "}
             <span className="bg-linear-to-r from-[#FF8C00] via-[#FFD700] to-[#00AEEF] text-transparent bg-clip-text capitalize">
               trusted haven
@@ -65,7 +65,7 @@ export default async function HomePage() {
               essentials
             </span>
           </h1>
-          <p className="text-xl text-white mb-8">
+          <p className="max-sm:text-base text-xl text-white mb-8">
             Curated with love for expectant mums, new parents, and thoughtful
             gift buyers. Premium quality, easy ordering online.
           </p>
@@ -87,7 +87,7 @@ export default async function HomePage() {
           <div className="container mx-auto px-4">
             <div className="flex justify-between items-center mb-16">
               <div>
-                <h2 className="text-3xl font-bold bg-linear-to-r from-[#FF8C00] via-[#FFD700] to-[#00AEEF] text-transparent bg-clip-text">
+                <h2 className="max-sm:text-2xl text-3xl font-bold bg-linear-to-r from-[#FF8C00] via-[#FFD700] to-[#00AEEF] text-transparent bg-clip-text">
                   Featured Products
                 </h2>
                 <p className="text-gray-500 text-sm mt-1">
@@ -138,7 +138,7 @@ export default async function HomePage() {
           <div className="container mx-auto px-4">
             <div className="flex justify-between items-center mb-16">
               <div>
-                <h2 className="text-3xl font-bold bg-linear-to-r from-[#FF8C00] via-[#FFD700] to-[#00AEEF] text-transparent bg-clip-text">
+                <h2 className="max-sm:text-2xl text-3xl font-bold bg-linear-to-r from-[#FF8C00] via-[#FFD700] to-[#00AEEF] text-transparent bg-clip-text">
                   New Arrivals
                 </h2>
                 <p className="text-gray-500 text-sm mt-1">

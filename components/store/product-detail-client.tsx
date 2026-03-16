@@ -249,7 +249,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
           )}
 
           {/* Title */}
-          <h1 className="text-3xl md:text-4xl font-bold">{product.name}</h1>
+          <h1 className="text-3xl md:text-4xl font-bold bg-linear-to-l from-[#FF8C00] via-[#FFD700] to-[#00AEEF] text-transparent bg-clip-text">{product.name}</h1>
 
           {/* Price */}
           <div className="flex items-baseline gap-3">
@@ -370,7 +370,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             <div className="flex gap-3">
               <Button
                 size="lg"
-                className="flex-1"
+                className="flex-1 bg-[#FF8C00]"
                 onClick={handleAddToCart}
                 disabled={
                   isOutOfStock || (product.hasVariants && !selectedVariant)

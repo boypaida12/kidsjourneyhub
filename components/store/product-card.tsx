@@ -109,7 +109,7 @@ export default function ProductCard({ product }: { product: Product }) {
 
           <div className="flex items-baseline gap-2">
             {displayData.priceRange ? (
-              <p className="font-bold text-red-400">
+              <p className="max-sm:text-xs font-bold text-red-400">
                 GH₵ {displayData.priceRange.min.toFixed(2)} - GH₵{" "}
                 {displayData.priceRange.max.toFixed(2)}
               </p>
@@ -130,7 +130,7 @@ export default function ProductCard({ product }: { product: Product }) {
           {product.hasVariants &&
             product.variants &&
             product.variants.length > 1 && (
-              <p className="text-sm text-gray-500 mt-2">
+              <p className="max-sm:text-xs text-sm text-gray-500 mt-2">
                 {product.variants.length} options available
               </p>
             )}

@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 
 type CODItem = {
   productId: string;
-  variantId?: string | null;  // ✅ Good - you have this
+  variantId?: string | null; 
   quantity: number;
   price: number;
   name: string;

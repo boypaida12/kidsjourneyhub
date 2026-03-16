@@ -284,7 +284,7 @@ export default function CheckoutPage() {
                       value={formData.paymentMethod}
                       onValueChange={handlePaymentMethodChange}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className="max-sm:w-full">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
