@@ -39,7 +39,7 @@ async function ProductsContent({
     },
     include: {
       category: true,
-      variants: true, 
+      variants: true,
     },
     orderBy: {
       createdAt: "desc",
@@ -53,12 +53,12 @@ async function ProductsContent({
     if (product.hasVariants && product.variants) {
       product.variants.forEach((variant) => {
         const attributes = variant.attributes as Record<string, string>;
-        
+
         Object.entries(attributes).forEach(([filterName, filterValue]) => {
           if (!filterMap.has(filterName)) {
             filterMap.set(filterName, new Map());
           }
-          
+
           const valueMap = filterMap.get(filterName)!;
           valueMap.set(filterValue, (valueMap.get(filterValue) || 0) + 1);
         });
@@ -79,9 +79,8 @@ async function ProductsContent({
   filters.forEach((filter) => {
     const param = searchParams[filter.name];
     if (param) {
-      selectedFilters[filter.name] = typeof param === "string" 
-        ? param.split(",") 
-        : param;
+      selectedFilters[filter.name] =
+        typeof param === "string" ? param.split(",") : param;
     }
   });
 
@@ -94,12 +93,12 @@ async function ProductsContent({
         // Check if any variant matches ALL selected filters
         return product.variants.some((variant) => {
           const attributes = variant.attributes as Record<string, string>;
-          
+
           return Object.entries(selectedFilters).every(
             ([filterName, selectedValues]) => {
               const variantValue = attributes[filterName];
               return selectedValues.includes(variantValue);
-            }
+            },
           );
         });
       })
@@ -184,8 +183,13 @@ async function ProductsContent({
               </Button>
             </div>
           ) : (
-            <div className="relative">
-              <Carousel
+            <div className="relative grid grid-cols-4 gap-3">
+              {filteredProducts.map((product) => (
+                <div key={product.id}>
+                  <ProductCard product={product} />
+                </div>
+              ))}
+              {/* <Carousel
                 opts={{
                   align: "start",
                   loop: false,
@@ -195,7 +199,7 @@ async function ProductsContent({
                   {filteredProducts.map((product) => (
                     <CarouselItem
                       key={product.id}
-                      className="max-[24rem]:basis-2/3 max-md:basis-1/2 basis-1/3 xl:basis-1/4"
+                      className="max-[24rem]:basis-2/3 max-md:basis-1/2 basis-1/3 xl:basis-1/6"
                     >
                       <ProductCard product={product} />
                     </CarouselItem>
@@ -205,7 +209,7 @@ async function ProductsContent({
                   <CarouselPrevious className="static translate-y-0 text-black" />
                   <CarouselNext className="static translate-y-0 text-black" />
                 </div>
-              </Carousel>
+              </Carousel> */}
             </div>
           )}
         </main>
