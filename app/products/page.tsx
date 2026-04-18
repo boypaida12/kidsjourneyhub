@@ -6,13 +6,13 @@ import { Loader2 } from "lucide-react";
 import StoreLayout from "@/components/store/store-layout";
 import ProductCard from "@/components/store/product-card";
 import ProductFilters from "@/components/store/product-filters";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+// import {
+//   Carousel,
+//   CarouselContent,
+//   CarouselItem,
+//   CarouselNext,
+//   CarouselPrevious,
+// } from "@/components/ui/carousel";
 
 type SearchParams = {
   category?: string;
