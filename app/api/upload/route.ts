@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { v2 as cloudinary } from "cloudinary";
 
-// Configure Cloudinary
+// Cloudinary config
 cloudinary.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -22,19 +22,22 @@ export async function POST(request: Request) {
     const file = formData.get("file") as File;
 
     if (!file) {
-      return NextResponse.json({ error: "No file provided" }, { status: 400 });
+      return NextResponse.json(
+        { error: "No file provided" },
+        { status: 400 }
+      );
     }
 
-    // Convert file to base64
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
-    const base64 = buffer.toString("base64");
-    const dataURI = `data:${file.type};base64,${base64}`;
 
-    // Upload to Cloudinary
+    const base64 = buffer.toString("base64");
+    const dataURI = `data:${file.type || "image/jpeg"};base64,${base64}`;
+
     const result = await cloudinary.uploader.upload(dataURI, {
       folder: "kidsjourneyhub/products",
-      resource_type: "auto",
+      resource_type: "image",
+      format: "jpg", // ensures consistent output
     });
 
     return NextResponse.json({
@@ -50,7 +53,7 @@ export async function POST(request: Request) {
   }
 }
 
-// Delete image from Cloudinary
+// DELETE image from Cloudinary
 export async function DELETE(request: Request) {
   try {
     const session = await getServerSession(authOptions);
@@ -63,7 +66,10 @@ export async function DELETE(request: Request) {
     const publicId = searchParams.get("publicId");
 
     if (!publicId) {
-      return NextResponse.json({ error: "No public ID provided" }, { status: 400 });
+      return NextResponse.json(
+        { error: "No public ID provided" },
+        { status: 400 }
+      );
     }
 
     await cloudinary.uploader.destroy(publicId);
