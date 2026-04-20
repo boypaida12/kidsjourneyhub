@@ -40,11 +40,12 @@ export default async function HomePage() {
   });
 
   const allProducts = await prisma.product.findMany({
-    where: { isActive: true },
+    where: { isActive: true, createdAt: { lt: thirtyDaysAgo } },
     include: { category: true, variants: true },
     orderBy: { createdAt: "desc" },
     take: 10,
   });
+ 
 
   const yourImageUrl =
     "https://res.cloudinary.com/dciojpfwx/image/upload/v1771376602/baby-natur-aNGHqUAITYc-unsplash_keh2mt.jpg";
@@ -192,7 +193,6 @@ export default async function HomePage() {
         </section>
       )}
 
-
       {/* ── All products ─────────────────────────────────── */}
       {allProducts.length > 0 && (
         <section className="py-16 bg-gray-50">
@@ -251,10 +251,8 @@ export default async function HomePage() {
         </section>
       )}
 
-
-
       {/* ── Empty State ───────────────────────────────────── */}
-      {allProducts.length === 0 && (
+      {allProducts.length === 0 && newArrivals.length === 0  && (
         <section className="py-20">
           <div className="container mx-auto px-4 text-center">
             <div className="bg-gray-50 rounded-lg py-16">
