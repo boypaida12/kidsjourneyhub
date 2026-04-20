@@ -113,7 +113,7 @@ async function ProductsContent({
       <div className="flex flex-col md:flex-row gap-8">
         {/* Sidebar with Categories and Filters */}
         <aside className="w-full md:w-64 shrink-0">
-          <div className="bg-white rounded-lg border p-6 sticky top-24 space-y-8">
+          <div className="bg-white rounded-lg border p-3 lg:p-6 sticky top-24 space-y-8">
             {/* Categories */}
             <div>
               <h2 className="text-xl font-bold mb-4">Categories</h2>
@@ -183,7 +183,7 @@ async function ProductsContent({
               </Button>
             </div>
           ) : (
-            <div className="relative grid grid-cols-4 gap-3">
+            <div className="relative grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
               {filteredProducts.map((product) => (
                 <div key={product.id}>
                   <ProductCard product={product} />

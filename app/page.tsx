@@ -36,7 +36,7 @@ export default async function HomePage() {
     },
     include: { category: true, variants: true },
     orderBy: { createdAt: "desc" },
-    take: 8,
+    take: 15,
   });
 
   const allProducts = await prisma.product.findMany({
@@ -158,7 +158,7 @@ export default async function HomePage() {
               </Button>
             </div>
 
-            <div className="relative">
+            <div className="relative max-md:hidden">
               <Carousel
                 opts={{
                   align: "start",
@@ -169,7 +169,7 @@ export default async function HomePage() {
                   {newArrivals.map((product) => (
                     <CarouselItem
                       key={product.id}
-                      className="max-[24rem]:basis-2/3 max-md:basis-1/2 basis-1/4 xl:basis-1/6"
+                      className="max-[24rem]:basis-2/3 max-md:basis-3/5 basis-1/4 xl:basis-1/5"
                     >
                       <ProductCard product={product} />
                     </CarouselItem>
@@ -180,6 +180,13 @@ export default async function HomePage() {
                   <CarouselNext className="static translate-y-0 text-[#FF8C00]" />
                 </div>
               </Carousel>
+            </div>
+            <div className="relative grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:hidden">
+              {newArrivals.map((product) => (
+                <div key={product.id}>
+                  <ProductCard product={product} />
+                </div>
+              ))}
             </div>
           </div>
         </section>
